@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizar Usuario</title>
+</head>
+<body>
+    <h1>Actualizar usuario</h1>
+
+    {% if mensaje %}
+        <p><strong>{{ mensaje }}</strong></p>
+    {% endif %}
+
+    <form method="POST" action="/usuarios/actualizar">
+        <label>Cédula (del usuario a actualizar):</label><br>
+        <input type="text" name="cedula" required><br><br>
+
+        <label>Nuevo nombre:</label><br>
+        <input type="text" name="nombre" required><br><br>
+
+        <label>Nuevo email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label>Nueva edad:</label><br>
+        <input type="number" name="edad" required><br><br>
+
+        <button type="submit">Actualizar</button>
+    </form>
+
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>
