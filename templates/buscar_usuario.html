@@ -3,42 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Buscar Usuario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Buscar usuario por cédula</h1>
+    <div class="contenedor">
+        <h1>Buscar usuario por cédula</h1>
 
-    <form method="POST" action="/usuarios/buscar">
-        <label>Cédula:</label><br>
-        <input type="text" name="cedula" required>
-        <button type="submit">Buscar</button>
-    </form>
+        <form method="POST" action="/usuarios/buscar" class="formulario">
+            <div class="campo">
+                <label>Cédula:</label>
+                <input type="text" name="cedula" required>
+            </div>
+            <button type="submit">Buscar</button>
+        </form>
 
-    <br>
-
-    {% if buscado %}
-        {% if usuario %}
-            <table border="1" cellpadding="8">
-                <tr>
-                    <th>Cédula</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Edad</th>
-                    <th>Fecha de registro</th>
-                </tr>
-                <tr>
-                    <td>{{ usuario[0] }}</td>
-                    <td>{{ usuario[1] }}</td>
-                    <td>{{ usuario[2] }}</td>
-                    <td>{{ usuario[3] }}</td>
-                    <td>{{ usuario[4] }}</td>
-                </tr>
-            </table>
-        {% else %}
-            <p><strong>No se encontró ningún usuario con esa cédula.</strong></p>
+        {% if buscado %}
+            {% if usuario %}
+                <table class="tabla-resultado">
+                    <tr>
+                        <th>Cédula</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Edad</th>
+                        <th>Fecha de registro</th>
+                    </tr>
+                    <tr>
+                        <td>{{ usuario[0] }}</td>
+                        <td>{{ usuario[1] }}</td>
+                        <td>{{ usuario[2] }}</td>
+                        <td>{{ usuario[3] }}</td>
+                        <td>{{ usuario[4] }}</td>
+                    </tr>
+                </table>
+            {% else %}
+                <p class="no-encontrado">No se encontró ningún usuario con esa cédula.</p>
+            {% endif %}
         {% endif %}
-    {% endif %}
 
-    <br>
-    <a href="/">Volver al inicio</a>
+        <a href="/" class="volver">Volver al inicio</a>
+    </div>
 </body>
 </html>

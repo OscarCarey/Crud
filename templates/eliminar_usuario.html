@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Eliminar Usuario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Eliminar usuario</h1>
+    <div class="contenedor">
+        <h1>Eliminar usuario</h1>
 
-    {% if mensaje %}
-        <p><strong>{{ mensaje }}</strong></p>
-    {% endif %}
+        {% if mensaje %}
+            <p class="mensaje">{{ mensaje }}</p>
+        {% endif %}
 
-    <form method="POST" action="/usuarios/eliminar">
-        <label>Cédula del usuario a eliminar:</label><br>
-        <input type="text" name="cedula" required>
-        <button type="submit">Eliminar</button>
-    </form>
+        <form method="POST" action="/usuarios/eliminar" class="formulario">
+            <div class="campo">
+                <label>Cédula del usuario a eliminar:</label>
+                <input type="text" name="cedula" required>
+            </div>
+            <button type="submit" class="boton-peligro">Eliminar</button>
+        </form>
 
-    <br>
-    <a href="/">Volver al inicio</a>
+        <a href="/" class="volver">Volver al inicio</a>
+    </div>
 </body>
 </html>

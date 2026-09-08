@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de Usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Usuarios registrados</h1>
+    <div class="contenedor contenedor-ancho">
+        <h1>Usuarios registrados</h1>
 
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Cédula</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Edad</th>
-            <th>Fecha de registro</th>
-        </tr>
-        {% for usuario in usuarios %}
-        <tr>
-            <td>{{ usuario[0] }}</td>
-            <td>{{ usuario[1] }}</td>
-            <td>{{ usuario[2] }}</td>
-            <td>{{ usuario[3] }}</td>
-            <td>{{ usuario[4] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+        <table class="tabla-usuarios">
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Edad</th>
+                <th>Fecha de registro</th>
+            </tr>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario[0] }}</td>
+                <td>{{ usuario[1] }}</td>
+                <td>{{ usuario[2] }}</td>
+                <td>{{ usuario[3] }}</td>
+                <td>{{ usuario[4] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-    <br>
-    <a href="/">Volver al inicio</a>
+        <a href="/" class="volver">Volver al inicio</a>
+    </div>
 </body>
 </html>

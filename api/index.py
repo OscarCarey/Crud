@@ -1,11 +1,12 @@
 
+import mimetypes
 import os
 import psycopg2
 from flask import Flask, render_template
 from flask import request, redirect, url_for
 from dotenv import load_dotenv 
 load_dotenv()
-
+mimetypes.add_type('text/css' , '.css')
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 

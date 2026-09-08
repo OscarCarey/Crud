@@ -3,31 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Crear Usuario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Crear nuevo usuario</h1>
+    <div class="contenedor">
+        <h1>Crear nuevo usuario</h1>
 
-    {% if mensaje %}
-        <p><strong>{{ mensaje }}</strong></p>
-    {% endif %}
+        {% if mensaje %}
+            <p class="mensaje">{{ mensaje }}</p>
+        {% endif %}
 
-    <form method="POST" action="/usuarios/crear">
-        <label>Cédula:</label><br>
-        <input type="text" name="cedula" required><br><br>
+        <form method="POST" action="/usuarios/crear" class="formulario">
+            <div class="campo">
+                <label>Cédula:</label>
+                <input type="text" name="cedula" required>
+            </div>
 
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre" required><br><br>
+            <div class="campo">
+                <label>Nombre:</label>
+                <input type="text" name="nombre" required>
+            </div>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+            <div class="campo">
+                <label>Email:</label>
+                <input type="email" name="email" required>
+            </div>
 
-        <label>Edad:</label><br>
-        <input type="number" name="edad" required><br><br>
+            <div class="campo">
+                <label>Edad:</label>
+                <input type="number" name="edad" required>
+            </div>
 
-        <button type="submit">Crear</button>
-    </form>
+            <button type="submit">Crear</button>
+        </form>
 
-    <br>
-    <a href="/">Volver al inicio</a>
+        <a href="/" class="volver">Volver al inicio</a>
+    </div>
 </body>
 </html>

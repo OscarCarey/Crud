@@ -1,0 +1,274 @@
+/* ===========================================
+   1. VARIABLES DE COLOR (custom properties)
+   ===========================================
+   Definimos los colores una sola vez aquí, en :root
+   (que representa la etiqueta <html>, es decir, "todo el documento").
+   Así, si luego quieres cambiar un color, lo cambias en un solo lugar
+   y se actualiza en todo el sitio. Se usan con var(--nombre).
+*/
+:root {
+  --color-fondo: #f4f6f8;
+  --color-tarjeta: #ffffff;
+  --color-primario: #2c3e50;
+  --color-acento: #3498db;
+  --color-exito: #27ae60;
+  --color-error: #e74c3c;
+  --color-texto: #2d3436;
+  --borde-radio: 8px; /* esquinas redondeadas, reutilizable */
+}
+
+/* ===========================================
+   2. RESET BÁSICO
+   ===========================================
+   El navegador trae márgenes y paddings por defecto que varían
+   según el navegador. Los ponemos en 0 para partir de una base
+   predecible y controlar nosotros el espaciado.
+   box-sizing: border-box hace que el padding y el borde de un
+   elemento se cuenten DENTRO de su ancho/alto declarado, en vez
+   de sumarse aparte (esto evita muchos dolores de cabeza).
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===========================================
+   3. ESTILOS GLOBALES DEL BODY
+   =========================================== */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.5; /* espacio entre líneas de texto, mejora lectura */
+
+  /* Centramos todo el contenido de la página, tanto horizontal
+     como verticalmente, usando Flexbox. */
+  min-height: 100vh; /* ocupa al menos el 100% del alto visible */
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: flex-start;  /* alinea arriba (no al centro vertical),
+                                para que no "flote" raro en pantallas
+                                grandes cuando el contenido es corto */
+  padding: 40px 20px;
+}
+
+/* ===========================================
+   4. LA "TARJETA" CONTENEDORA
+   ===========================================
+   En vez de que el HTML ocupe todo el ancho de la pantalla,
+   lo metemos en un contenedor tipo tarjeta: fondo blanco,
+   ancho máximo, sombra sutil. Esto es lo que le da la sensación
+   de "app moderna" en vez de "HTML plano de los 2000".
+*/
+.contenedor {
+  background-color: var(--color-tarjeta);
+  max-width: 600px;
+  width: 100%;
+  padding: 32px;
+  border-radius: var(--borde-radio);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* sombra suave */
+}
+
+/* ===========================================
+   5. TÍTULOS
+   =========================================== */
+h1, h2 {
+  color: var(--color-primario);
+  margin-bottom: 20px;
+}
+
+/* ===========================================
+   6. MENÚ PRINCIPAL (index.html)
+   ===========================================
+   La lista <ul> por defecto se ve como viñetas apiladas.
+   Vamos a convertirla en una columna de "botones" usando Flexbox.
+*/
+.menu {
+  /* Quitamos el estilo de lista por defecto (los puntos/viñetas) */
+  list-style: none;
+
+  /* Flexbox con dirección "column" apila los elementos hijos
+     verticalmente, uno debajo del otro. Por defecto flex-direction
+     ya es "row" (uno al lado del otro), así que la cambiamos. */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* espacio entre cada botón, sin necesitar margin manual */
+}
+
+/* Cada <a> dentro del menú lo convertimos visualmente en un botón */
+.menu a {
+  display: block; /* hace que el enlace ocupe todo el ancho disponible,
+                      no solo el ancho de su texto, y que se pueda
+                      hacer clic en toda el área, no solo en la palabra */
+  text-decoration: none; /* quita el subrayado típico de los links */
+  background-color: var(--color-primario);
+  color: white;
+  padding: 14px 20px;
+  border-radius: var(--borde-radio);
+  text-align: center;
+  font-weight: 500;
+
+  /* transition hace que el cambio de color al pasar el mouse
+     sea suave (0.2 segundos) en vez de instantáneo */
+  transition: background-color 0.2s ease;
+}
+
+/* :hover es un "pseudo-selector": se activa solo mientras
+   el mouse está encima del elemento */
+.menu a:hover {
+  background-color: var(--color-acento);
+}
+
+/* ===========================================
+   7. FORMULARIOS (crear, buscar, actualizar, eliminar)
+   =========================================== */
+
+/* Cada "campo" es la pareja label + input. Los apilamos en columna
+   y dejamos espacio abajo de cada uno con margin-bottom. */
+.campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.campo label {
+  margin-bottom: 6px;      /* separa el label de su input */
+  font-weight: 500;
+  color: var(--color-primario);
+}
+
+/* Todos los inputs de texto, email y número dentro de un formulario */
+.formulario input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;  /* borde gris sutil */
+  border-radius: var(--borde-radio);
+  font-size: 1rem;         /* 1rem = mismo tamaño que el texto base del body,
+                               así el input no se ve desproporcionado */
+  font-family: inherit;    /* usa la misma fuente que el resto de la página,
+                               en vez de la fuente por defecto del navegador */
+}
+
+/* :focus se activa cuando el usuario hace clic o tabula hasta el input.
+   Reemplazamos el borde azul feo por defecto del navegador con uno
+   que combina con nuestra paleta. */
+.formulario input:focus {
+  outline: none; /* quita el contorno azul por defecto del navegador */
+  border-color: var(--color-acento);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15); /* halo suave alrededor */
+}
+
+/* El botón de enviar, con el mismo lenguaje visual que los botones del menú */
+.formulario button {
+  display: block;
+  width: 100%;
+  background-color: var(--color-primario);
+  color: white;
+  border: none;           /* quita el borde por defecto de los <button> */
+  padding: 12px 20px;
+  border-radius: var(--borde-radio);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;         /* muestra la manita al pasar el mouse, indica
+                               que es clickeable */
+  transition: background-color 0.2s ease;
+  margin-top: 8px;
+}
+
+.formulario button:hover {
+  background-color: var(--color-acento);
+}
+
+/* Caja de mensaje (éxito, error, resultado de una operación) */
+.mensaje {
+  background-color: #eafaf1;      /* verde muy claro */
+  border-left: 4px solid var(--color-exito); /* barra de color a la izquierda */
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Link de "volver al inicio", separado visualmente del formulario */
+.volver {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--color-acento);
+  text-decoration: none;
+}
+
+.volver:hover {
+  text-decoration: underline;
+}
+
+/* Tabla de resultado de búsqueda */
+.tabla-resultado {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-resultado th,
+.tabla-resultado td {
+  border: 1px solid #dfe6e9;
+  padding: 10px;
+  text-align: left;
+}
+
+.tabla-resultado th {
+  background-color: var(--color-primario);
+  color: white;
+}
+
+/* Mensaje de "no encontrado" */
+.no-encontrado {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background-color: #fdecea;
+  border-left: 4px solid var(--color-error);
+  border-radius: var(--borde-radio);
+  color: var(--color-error);
+  font-weight: 500;
+}
+
+/* Botón de acción destructiva */
+.formulario button.boton-peligro {
+  background-color: var(--color-error);
+}
+
+.formulario button.boton-peligro:hover {
+  background-color: #c0392b;
+}
+
+/* Contenedor más ancho, solo para la tabla de usuarios */
+.contenedor-ancho {
+  max-width: 900px;
+}
+
+/* Tabla de usuarios */
+.tabla-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+.tabla-usuarios th,
+.tabla-usuarios td {
+  border: 1px solid #dfe6e9;
+  padding: 10px;
+  text-align: left;
+}
+
+.tabla-usuarios th {
+  background-color: var(--color-primario);
+  color: white;
+}
+
+.tabla-usuarios tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.tabla-usuarios tr:hover {
+  background-color: #eaf2f8;
+}
