@@ -103,28 +103,60 @@ def actualizar_usuario():
 
     return render_template('actualizar_usuario.html', mensaje=mensaje)
 
+
 @app.route('/usuarios/eliminar', methods=['GET', 'POST'])
 def eliminar_usuario():
     if request.method == 'GET':
-        return render_template('eliminar_usuario.html', mensaje=None)
+        return render_template('eliminar_usuario.html', mensaje=None, usuario=None)
 
+    accion = request.form.get('accion')
     cedula = request.form['cedula']
 
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute(
-        "CALL eliminar_usuario(%s, %s)",
-        (cedula, None)
-    )
-    resultado = cur.fetchone()
-    conn.commit()
+
+    if accion == 'buscar':
+        # 1. Buscar la info del usuario ANTES de eliminar
+        try:
+            cur.execute("SELECT * FROM usuarios WHERE cedula = %s", (cedula,))
+            fila = cur.fetchone()
+
+            if not fila:
+                return render_template('eliminar_usuario.html', mensaje="No se encontró ningún usuario con esa cédula.", usuario=None, cedula=cedula)
+
+            # Convertir la fila en un diccionario {columna: valor} ANTES de cerrar el cursor
+            columnas = [desc[0] for desc in cur.description]
+            usuario = dict(zip(columnas, fila))
+
+            return render_template('eliminar_usuario.html', mensaje=None, usuario=usuario, cedula=cedula)
+
+        except Exception as e:
+            conn.rollback()
+            return render_template('eliminar_usuario.html', mensaje=f"Ocurrió un error al buscar el usuario: {e}", usuario=None, cedula=cedula)
+
+        finally:
+            cur.close()
+            conn.close()
+
+    elif accion == 'confirmar':
+        # 2. Ejecutar la eliminación real
+        try:
+            cur.execute("CALL eliminar_usuario(%s, %s)", (cedula, None))
+            resultado = cur.fetchone()
+            conn.commit()
+            mensaje = resultado[0]
+        except Exception as e:
+            conn.rollback()
+            mensaje = f"Ocurrió un error al eliminar el usuario: {e}"
+        finally:
+            cur.close()
+            conn.close()
+
+        return render_template('eliminar_usuario.html', mensaje=mensaje, usuario=None)
+
     cur.close()
     conn.close()
-
-    mensaje = resultado[0]
-
-    return render_template('eliminar_usuario.html', mensaje=mensaje)
-
+    return render_template('eliminar_usuario.html', mensaje="Acción no válida.", usuario=None)
 
 @app.route('/api/usuario/<cedula>')
 def api_usuario(cedula):

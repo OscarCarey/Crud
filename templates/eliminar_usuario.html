@@ -10,13 +10,38 @@
     <p class="mensaje">{{ mensaje }}</p>
 {% endif %}
 
+{% if not usuario %}
 <form method="POST" action="/usuarios/eliminar" class="formulario">
+    <input type="hidden" name="accion" value="buscar">
     <div class="campo">
         <label>Cédula del usuario a eliminar</label>
-        <input type="text" name="cedula" required>
+        <input type="text" name="cedula" required value="{{ cedula or '' }}">
     </div>
-    <button type="submit" class="boton-peligro">Eliminar usuario</button>
+    <button type="submit" class="boton">Buscar usuario</button>
 </form>
+{% endif %}
+
+{% if usuario %}
+<div class="info-usuario">
+    <h3>Se eliminará la siguiente información:</h3>
+    <table>
+        {% for campo, valor in usuario.items() %}
+        <tr>
+            <th>{{ campo }}</th>
+            <td>{{ valor }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<form method="POST" action="/usuarios/eliminar" class="formulario">
+    <input type="hidden" name="accion" value="confirmar">
+    <input type="hidden" name="cedula" value="{{ cedula }}">
+    <button type="submit" class="boton-peligro">Confirmar eliminación</button>
+</form>
+
+<a href="/usuarios/eliminar" class="volver">Cancelar / buscar otra cédula</a>
+{% endif %}
 
 <a href="/" class="volver">Volver al inicio</a>
 {% endblock %}
