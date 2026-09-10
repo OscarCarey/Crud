@@ -13,25 +13,27 @@
             <p class="mensaje">{{ mensaje }}</p>
         {% endif %}
 
+        <p id="estado-busqueda" class="mensaje" style="display:none;"></p>
+
         <form method="POST" action="/usuarios/actualizar" class="formulario">
             <div class="campo">
                 <label>Cédula (del usuario a actualizar):</label>
-                <input type="text" name="cedula" required>
+                <input type="text" name="cedula" id="cedula" onblur="buscarUsuario()" required>
             </div>
 
             <div class="campo">
                 <label>Nuevo nombre:</label>
-                <input type="text" name="nombre" required>
+                <input type="text" name="nombre" id="nombre" required>
             </div>
 
             <div class="campo">
                 <label>Nuevo email:</label>
-                <input type="email" name="email" required>
+                <input type="email" name="email" id="email" required>
             </div>
 
             <div class="campo">
                 <label>Nueva edad:</label>
-                <input type="number" name="edad" required>
+                <input type="number" name="edad" id="edad" required>
             </div>
 
             <button type="submit">Actualizar</button>
@@ -39,5 +41,38 @@
 
         <a href="/" class="volver">Volver al inicio</a>
     </div>
+
+    <script>
+        async function buscarUsuario() {
+            const cedula = document.getElementById('cedula').value.trim();
+            const estado = document.getElementById('estado-busqueda');
+
+            if (!cedula) return;
+
+            try {
+                const res = await fetch(`/api/usuario/${cedula}`);
+
+                if (!res.ok) {
+                    estado.textContent = 'No se encontró un usuario con esa cédula';
+                    estado.style.display = 'block';
+                    document.getElementById('nombre').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('edad').value = '';
+                    return;
+                }
+
+                const data = await res.json();
+                document.getElementById('nombre').value = data.nombre;
+                document.getElementById('email').value = data.email;
+                document.getElementById('edad').value = data.edad;
+
+                estado.textContent = 'Datos actuales cargados. Puedes modificarlos abajo.';
+                estado.style.display = 'block';
+            } catch (error) {
+                estado.textContent = 'Error al buscar el usuario';
+                estado.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>

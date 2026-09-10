@@ -2,7 +2,7 @@
 import mimetypes
 import os
 import psycopg2
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
 from flask import request, redirect, url_for
 from dotenv import load_dotenv 
 load_dotenv()
@@ -124,6 +124,28 @@ def eliminar_usuario():
     mensaje = resultado[0]
 
     return render_template('eliminar_usuario.html', mensaje=mensaje)
+
+
+@app.route('/api/usuario/<cedula>')
+def api_usuario(cedula):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT nombre, email, edad FROM usuarios WHERE cedula = %s",
+        (cedula,)
+    )
+    usuario = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if usuario is None:
+        return jsonify({'error': 'no encontrado'}), 404
+
+    return jsonify({
+        'nombre': usuario[0],
+        'email': usuario[1],
+        'edad': usuario[2]
+    })
 
 
 
