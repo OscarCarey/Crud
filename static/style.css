@@ -1,131 +1,230 @@
 /* ===========================================
-   1. VARIABLES DE COLOR (custom properties)
+   SISTEMA DE DISEÑO — Gestión de Usuarios
+   Paleta corporativa azul + layout tipo dashboard
    ===========================================
-   Definimos los colores una sola vez aquí, en :root
-   (que representa la etiqueta <html>, es decir, "todo el documento").
-   Así, si luego quieres cambiar un color, lo cambias en un solo lugar
-   y se actualiza en todo el sitio. Se usan con var(--nombre).
+   Todo el color, tipografía y espaciado vive en :root
+   como variables, para que cambiar un tono no implique
+   tocar 30 reglas distintas.
 */
 :root {
-  --color-fondo: #f4f6f8;
-  --color-tarjeta: #ffffff;
-  --color-primario: #2c3e50;
-  --color-acento: #3498db;
-  --color-exito: #27ae60;
-  --color-error: #e74c3c;
-  --color-texto: #2d3436;
-  --borde-radio: 8px; /* esquinas redondeadas, reutilizable */
+  /* Color de marca / navegación */
+  --navy-950: #0b1b33;
+  --navy-800: #142a4d;
+  --navy-700: #1c3860;
+
+  /* Color de acción */
+  --blue-600: #2a5db0;
+  --blue-700: #204a8f;
+  --blue-50: #eaf1fb;
+
+  /* Neutrales */
+  --slate-50: #f5f7fa;
+  --slate-100: #eef1f6;
+  --border: #dce3ec;
+  --white: #ffffff;
+
+  /* Texto */
+  --ink-900: #1b2430;
+  --ink-500: #5b6b82;
+
+  /* Estados */
+  --green-600: #1d8348;
+  --green-50: #e9f7ef;
+  --red-600: #b93a2e;
+  --red-50: #fcebe9;
+  --amber-600: #b06a15;
+  --amber-50: #fdf3e3;
+
+  /* Tipografía */
+  --fuente-ui: 'Inter', -apple-system, Segoe UI, Arial, sans-serif;
+  --fuente-datos: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Geometría */
+  --radio: 6px;
+  --radio-chico: 4px;
+  --ancho-sidebar: 240px;
 }
 
-/* ===========================================
-   2. RESET BÁSICO
-   ===========================================
-   El navegador trae márgenes y paddings por defecto que varían
-   según el navegador. Los ponemos en 0 para partir de una base
-   predecible y controlar nosotros el espaciado.
-   box-sizing: border-box hace que el padding y el borde de un
-   elemento se cuenten DENTRO de su ancho/alto declarado, en vez
-   de sumarse aparte (esto evita muchos dolores de cabeza).
-*/
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ===========================================
-   3. ESTILOS GLOBALES DEL BODY
-   =========================================== */
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
-  line-height: 1.5; /* espacio entre líneas de texto, mejora lectura */
+  font-family: var(--fuente-ui);
+  background-color: var(--slate-50);
+  color: var(--ink-900);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
 
-  /* Centramos todo el contenido de la página, tanto horizontal
-     como verticalmente, usando Flexbox. */
-  min-height: 100vh; /* ocupa al menos el 100% del alto visible */
-  display: flex;
-  justify-content: center; /* centra horizontalmente */
-  align-items: flex-start;  /* alinea arriba (no al centro vertical),
-                                para que no "flote" raro en pantallas
-                                grandes cuando el contenido es corto */
-  padding: 40px 20px;
+a {
+  color: inherit;
 }
 
 /* ===========================================
-   4. LA "TARJETA" CONTENEDORA
-   ===========================================
-   En vez de que el HTML ocupe todo el ancho de la pantalla,
-   lo metemos en un contenedor tipo tarjeta: fondo blanco,
-   ancho máximo, sombra sutil. Esto es lo que le da la sensación
-   de "app moderna" en vez de "HTML plano de los 2000".
-*/
-.contenedor {
-  background-color: var(--color-tarjeta);
-  max-width: 600px;
-  width: 100%;
-  padding: 32px;
-  border-radius: var(--borde-radio);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* sombra suave */
-}
-
-/* ===========================================
-   5. TÍTULOS
+   LAYOUT PRINCIPAL: sidebar + contenido
    =========================================== */
-h1, h2 {
-  color: var(--color-primario);
-  margin-bottom: 20px;
+.app {
+  display: grid;
+  grid-template-columns: var(--ancho-sidebar) 1fr;
+  min-height: 100vh;
 }
 
-/* ===========================================
-   6. MENÚ PRINCIPAL (index.html)
-   ===========================================
-   La lista <ul> por defecto se ve como viñetas apiladas.
-   Vamos a convertirla en una columna de "botones" usando Flexbox.
-*/
-.menu {
-  /* Quitamos el estilo de lista por defecto (los puntos/viñetas) */
-  list-style: none;
-
-  /* Flexbox con dirección "column" apila los elementos hijos
-     verticalmente, uno debajo del otro. Por defecto flex-direction
-     ya es "row" (uno al lado del otro), así que la cambiamos. */
+/* ---------- Barra lateral ---------- */
+.barra-lateral {
+  background-color: var(--navy-950);
+  color: var(--white);
+  padding: 24px 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px; /* espacio entre cada botón, sin necesitar margin manual */
+  gap: 32px;
 }
 
-/* Cada <a> dentro del menú lo convertimos visualmente en un botón */
-.menu a {
-  display: block; /* hace que el enlace ocupe todo el ancho disponible,
-                      no solo el ancho de su texto, y que se pueda
-                      hacer clic en toda el área, no solo en la palabra */
-  text-decoration: none; /* quita el subrayado típico de los links */
-  background-color: var(--color-primario);
-  color: white;
-  padding: 14px 20px;
-  border-radius: var(--borde-radio);
-  text-align: center;
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+.marca-icono {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radio-chico);
+  background-color: var(--blue-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.marca-nombre {
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.navegacion {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navegacion-titulo {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 12px 12px 4px;
   font-weight: 500;
-
-  /* transition hace que el cambio de color al pasar el mouse
-     sea suave (0.2 segundos) en vez de instantáneo */
-  transition: background-color 0.2s ease;
 }
 
-/* :hover es un "pseudo-selector": se activa solo mientras
-   el mouse está encima del elemento */
-.menu a:hover {
-  background-color: var(--color-acento);
+.navegacion a {
+  display: block;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 10px 12px;
+  border-radius: var(--radio-chico);
+  font-size: 0.92rem;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.navegacion a:hover {
+  background-color: var(--navy-800);
+  color: var(--white);
+}
+
+.navegacion a.activo {
+  background-color: var(--navy-700);
+  color: var(--white);
+  border-left-color: var(--blue-600);
+}
+
+/* ---------- Columna de contenido ---------- */
+.contenido {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* evita que las tablas anchas rompan el grid */
+}
+
+.topbar {
+  padding: 28px 40px 20px;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--white);
+}
+
+.topbar h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+.topbar p {
+  color: var(--ink-500);
+  font-size: 0.92rem;
+  margin-top: 4px;
+}
+
+.panel {
+  flex: 1;
+  padding: 32px 40px;
+  max-width: 760px;
+}
+
+.panel.panel-ancho {
+  max-width: none;
 }
 
 /* ===========================================
-   7. FORMULARIOS (crear, buscar, actualizar, eliminar)
+   INICIO — cuadrícula de accesos rápidos
    =========================================== */
+.cuadricula-acciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
 
-/* Cada "campo" es la pareja label + input. Los apilamos en columna
-   y dejamos espacio abajo de cada uno con margin-bottom. */
+.tarjeta-accion {
+  display: block;
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--acento, var(--blue-600));
+  border-radius: var(--radio-chico);
+  padding: 18px 20px;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tarjeta-accion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(11, 27, 51, 0.08);
+}
+
+.tarjeta-accion h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-900);
+  margin-bottom: 4px;
+}
+
+.tarjeta-accion p {
+  font-size: 0.86rem;
+  color: var(--ink-500);
+}
+
+.tarjeta-accion--crear { --acento: var(--blue-600); }
+.tarjeta-accion--listar { --acento: var(--ink-500); }
+.tarjeta-accion--buscar { --acento: #1a7f7f; }
+.tarjeta-accion--actualizar { --acento: var(--amber-600); }
+.tarjeta-accion--eliminar { --acento: var(--red-600); }
+
+/* ===========================================
+   FORMULARIOS
+   =========================================== */
 .campo {
   display: flex;
   flex-direction: column;
@@ -133,142 +232,201 @@ h1, h2 {
 }
 
 .campo label {
-  margin-bottom: 6px;      /* separa el label de su input */
+  margin-bottom: 6px;
   font-weight: 500;
-  color: var(--color-primario);
+  font-size: 0.9rem;
+  color: var(--ink-900);
 }
 
-/* Todos los inputs de texto, email y número dentro de un formulario */
 .formulario input {
   padding: 10px 12px;
-  border: 1px solid #ccc;  /* borde gris sutil */
-  border-radius: var(--borde-radio);
-  font-size: 1rem;         /* 1rem = mismo tamaño que el texto base del body,
-                               así el input no se ve desproporcionado */
-  font-family: inherit;    /* usa la misma fuente que el resto de la página,
-                               en vez de la fuente por defecto del navegador */
+  border: 1px solid var(--border);
+  border-radius: var(--radio-chico);
+  font-size: 0.95rem;
+  font-family: inherit;
+  background-color: var(--white);
+  color: var(--ink-900);
 }
 
-/* :focus se activa cuando el usuario hace clic o tabula hasta el input.
-   Reemplazamos el borde azul feo por defecto del navegador con uno
-   que combina con nuestra paleta. */
-.formulario input:focus {
-  outline: none; /* quita el contorno azul por defecto del navegador */
-  border-color: var(--color-acento);
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15); /* halo suave alrededor */
+.formulario input:focus,
+.formulario input:focus-visible {
+  outline: none;
+  border-color: var(--blue-600);
+  box-shadow: 0 0 0 3px var(--blue-50);
 }
 
-/* El botón de enviar, con el mismo lenguaje visual que los botones del menú */
+/* La cédula se escribe y se lee como un dato, no como texto corrido */
+.formulario input[name="cedula"] {
+  font-family: var(--fuente-datos);
+  letter-spacing: 0.02em;
+}
+
 .formulario button {
-  display: block;
-  width: 100%;
-  background-color: var(--color-primario);
-  color: white;
-  border: none;           /* quita el borde por defecto de los <button> */
-  padding: 12px 20px;
-  border-radius: var(--borde-radio);
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;         /* muestra la manita al pasar el mouse, indica
-                               que es clickeable */
-  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--blue-600);
+  color: var(--white);
+  border: none;
+  padding: 11px 20px;
+  border-radius: var(--radio-chico);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
   margin-top: 8px;
 }
 
 .formulario button:hover {
-  background-color: var(--color-acento);
+  background-color: var(--blue-700);
 }
 
-/* Caja de mensaje (éxito, error, resultado de una operación) */
+.formulario button.boton-peligro {
+  background-color: var(--red-600);
+}
+
+.formulario button.boton-peligro:hover {
+  background-color: #96291f;
+}
+
+/* ===========================================
+   MENSAJES DE ESTADO
+   =========================================== */
 .mensaje {
-  background-color: #eafaf1;      /* verde muy claro */
-  border-left: 4px solid var(--color-exito); /* barra de color a la izquierda */
+  background-color: var(--green-50);
+  border-left: 3px solid var(--green-600);
+  color: #145a33;
   padding: 12px 16px;
-  border-radius: 4px;
+  border-radius: var(--radio-chico);
   margin-bottom: 20px;
+  font-size: 0.92rem;
   font-weight: 500;
 }
 
-/* Link de "volver al inicio", separado visualmente del formulario */
+.no-encontrado {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background-color: var(--red-50);
+  border-left: 3px solid var(--red-600);
+  border-radius: var(--radio-chico);
+  color: var(--red-600);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.aviso-carga {
+  background-color: var(--blue-50);
+  border-left: 3px solid var(--blue-600);
+  color: var(--blue-700);
+  padding: 10px 16px;
+  border-radius: var(--radio-chico);
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
 .volver {
   display: inline-block;
-  margin-top: 20px;
-  color: var(--color-acento);
+  margin-top: 24px;
+  color: var(--blue-600);
   text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .volver:hover {
   text-decoration: underline;
 }
 
-/* Tabla de resultado de búsqueda */
-.tabla-resultado {
-  width: 100%;
-  border-collapse: collapse;
+/* ===========================================
+   TABLAS
+   =========================================== */
+.tabla-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radio-chico);
   margin-top: 20px;
 }
 
-.tabla-resultado th,
-.tabla-resultado td {
-  border: 1px solid #dfe6e9;
-  padding: 10px;
-  text-align: left;
-}
-
-.tabla-resultado th {
-  background-color: var(--color-primario);
-  color: white;
-}
-
-/* Mensaje de "no encontrado" */
-.no-encontrado {
-  margin-top: 20px;
-  padding: 12px 16px;
-  background-color: #fdecea;
-  border-left: 4px solid var(--color-error);
-  border-radius: var(--borde-radio);
-  color: var(--color-error);
-  font-weight: 500;
-}
-
-/* Botón de acción destructiva */
-.formulario button.boton-peligro {
-  background-color: var(--color-error);
-}
-
-.formulario button.boton-peligro:hover {
-  background-color: #c0392b;
-}
-
-/* Contenedor más ancho, solo para la tabla de usuarios */
-.contenedor-ancho {
-  max-width: 900px;
-}
-
-/* Tabla de usuarios */
+.tabla-resultado,
 .tabla-usuarios {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  background-color: var(--white);
 }
 
+.tabla-resultado th,
+.tabla-resultado td,
 .tabla-usuarios th,
 .tabla-usuarios td {
-  border: 1px solid #dfe6e9;
-  padding: 10px;
+  padding: 11px 14px;
   text-align: left;
+  border-bottom: 1px solid var(--border);
 }
 
+.tabla-resultado th,
 .tabla-usuarios th {
-  background-color: var(--color-primario);
-  color: white;
+  background-color: var(--navy-950);
+  color: var(--white);
+  font-weight: 500;
+  font-size: 0.82rem;
 }
 
 .tabla-usuarios tr:nth-child(even) {
-  background-color: #f8f9fa;
+  background-color: var(--slate-100);
 }
 
-.tabla-usuarios tr:hover {
-  background-color: #eaf2f8;
+.tabla-resultado tr:hover td,
+.tabla-usuarios tr:hover td {
+  background-color: var(--blue-50);
+}
+
+.dato-mono {
+  font-family: var(--fuente-datos);
+  color: var(--ink-900);
+}
+
+/* ===========================================
+   ACCESIBILIDAD Y RESPONSIVE
+   =========================================== */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+@media (max-width: 860px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .barra-lateral {
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    padding: 12px 16px;
+    gap: 20px;
+  }
+
+  .navegacion {
+    flex-direction: row;
+  }
+
+  .navegacion-titulo {
+    display: none;
+  }
+
+  .topbar,
+  .panel {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

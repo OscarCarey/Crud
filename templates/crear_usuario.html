@@ -1,43 +1,38 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Usuario</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="contenedor">
-        <h1>Crear nuevo usuario</h1>
+{% extends "base.html" %}
 
-        {% if mensaje %}
-            <p class="mensaje">{{ mensaje }}</p>
-        {% endif %}
+{% block titulo %}Crear usuario{% endblock %}
 
-        <form method="POST" action="/usuarios/crear" class="formulario">
-            <div class="campo">
-                <label>Cédula:</label>
-                <input type="text" name="cedula" required>
-            </div>
+{% block encabezado %}Crear usuario{% endblock %}
+{% block subtitulo %}<p>Registra un nuevo usuario con sus datos básicos.</p>{% endblock %}
 
-            <div class="campo">
-                <label>Nombre:</label>
-                <input type="text" name="nombre" required>
-            </div>
+{% block contenido %}
+{% if mensaje %}
+    <p class="mensaje">{{ mensaje }}</p>
+{% endif %}
 
-            <div class="campo">
-                <label>Email:</label>
-                <input type="email" name="email" required>
-            </div>
-
-            <div class="campo">
-                <label>Edad:</label>
-                <input type="number" name="edad" required>
-            </div>
-
-            <button type="submit">Crear</button>
-        </form>
-
-        <a href="/" class="volver">Volver al inicio</a>
+<form method="POST" action="/usuarios/crear" class="formulario">
+    <div class="campo">
+        <label>Cédula</label>
+        <input type="text" name="cedula" required>
     </div>
-</body>
-</html>
+
+    <div class="campo">
+        <label>Nombre</label>
+        <input type="text" name="nombre" required>
+    </div>
+
+    <div class="campo">
+        <label>Email</label>
+        <input type="email" name="email" required>
+    </div>
+
+    <div class="campo">
+        <label>Edad</label>
+        <input type="number" name="edad" required>
+    </div>
+
+    <button type="submit">Crear usuario</button>
+</form>
+
+<a href="/" class="volver">Volver al inicio</a>
+{% endblock %}

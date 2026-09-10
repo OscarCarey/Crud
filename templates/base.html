@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Gestión de Usuarios{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app">
+        <aside class="barra-lateral">
+            <div class="marca">
+                <span class="marca-icono">GU</span>
+                <span class="marca-nombre">Gestión de Usuarios</span>
+            </div>
+
+            <nav class="navegacion">
+                <a href="/" class="{{ 'activo' if request.path == '/' else '' }}">Inicio</a>
+
+                <span class="navegacion-titulo">Usuarios</span>
+                <a href="/usuarios/crear" class="{{ 'activo' if request.path == '/usuarios/crear' else '' }}">Crear</a>
+                <a href="/usuarios" class="{{ 'activo' if request.path == '/usuarios' else '' }}">Listar</a>
+                <a href="/usuarios/buscar" class="{{ 'activo' if request.path == '/usuarios/buscar' else '' }}">Buscar</a>
+                <a href="/usuarios/actualizar" class="{{ 'activo' if request.path == '/usuarios/actualizar' else '' }}">Actualizar</a>
+                <a href="/usuarios/eliminar" class="{{ 'activo' if request.path == '/usuarios/eliminar' else '' }}">Eliminar</a>
+            </nav>
+        </aside>
+
+        <div class="contenido">
+            <header class="topbar">
+                <h1>{% block encabezado %}{% endblock %}</h1>
+                {% block subtitulo %}{% endblock %}
+            </header>
+
+            <main class="panel {% block panel_clase %}{% endblock %}">
+                {% block contenido %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

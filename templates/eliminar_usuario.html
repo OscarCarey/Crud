@@ -1,27 +1,22 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Eliminar Usuario</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="contenedor">
-        <h1>Eliminar usuario</h1>
+{% extends "base.html" %}
 
-        {% if mensaje %}
-            <p class="mensaje">{{ mensaje }}</p>
-        {% endif %}
+{% block titulo %}Eliminar usuario{% endblock %}
 
-        <form method="POST" action="/usuarios/eliminar" class="formulario">
-            <div class="campo">
-                <label>Cédula del usuario a eliminar:</label>
-                <input type="text" name="cedula" required>
-            </div>
-            <button type="submit" class="boton-peligro">Eliminar</button>
-        </form>
+{% block encabezado %}Eliminar usuario{% endblock %}
+{% block subtitulo %}<p>Esta acción elimina el usuario de forma permanente.</p>{% endblock %}
 
-        <a href="/" class="volver">Volver al inicio</a>
+{% block contenido %}
+{% if mensaje %}
+    <p class="mensaje">{{ mensaje }}</p>
+{% endif %}
+
+<form method="POST" action="/usuarios/eliminar" class="formulario">
+    <div class="campo">
+        <label>Cédula del usuario a eliminar</label>
+        <input type="text" name="cedula" required>
     </div>
-</body>
-</html>
+    <button type="submit" class="boton-peligro">Eliminar usuario</button>
+</form>
+
+<a href="/" class="volver">Volver al inicio</a>
+{% endblock %}

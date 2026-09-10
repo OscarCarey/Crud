@@ -1,21 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Sistema de Usuarios</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="contenedor">
-        <h1>Sistema de Gestión de Usuarios</h1>
+{% extends "base.html" %}
 
-        <ul class="menu">
-            <li><a href="/usuarios/crear">Crear usuario</a></li>
-            <li><a href="/usuarios">Ver todos los usuarios</a></li>
-            <li><a href="/usuarios/buscar">Buscar usuario por cédula</a></li>
-            <li><a href="/usuarios/actualizar">Actualizar usuario</a></li>
-            <li><a href="/usuarios/eliminar">Eliminar usuario</a></li>
-        </ul>
-    </div>
-</body>
-</html>
+{% block titulo %}Inicio · Gestión de Usuarios{% endblock %}
+
+{% block encabezado %}Inicio{% endblock %}
+{% block subtitulo %}<p>Selecciona una acción para empezar.</p>{% endblock %}
+
+{% block contenido %}
+<div class="cuadricula-acciones">
+    <a href="/usuarios/crear" class="tarjeta-accion tarjeta-accion--crear">
+        <h3>Crear usuario</h3>
+        <p>Registra un nuevo usuario en el sistema.</p>
+    </a>
+
+    <a href="/usuarios" class="tarjeta-accion tarjeta-accion--listar">
+        <h3>Ver usuarios</h3>
+        <p>Consulta el listado completo de usuarios registrados.</p>
+    </a>
+
+    <a href="/usuarios/buscar" class="tarjeta-accion tarjeta-accion--buscar">
+        <h3>Buscar usuario</h3>
+        <p>Encuentra un usuario por su número de cédula.</p>
+    </a>
+
+    <a href="/usuarios/actualizar" class="tarjeta-accion tarjeta-accion--actualizar">
+        <h3>Actualizar usuario</h3>
+        <p>Modifica los datos de un usuario existente.</p>
+    </a>
+
+    <a href="/usuarios/eliminar" class="tarjeta-accion tarjeta-accion--eliminar">
+        <h3>Eliminar usuario</h3>
+        <p>Elimina un usuario del sistema de forma permanente.</p>
+    </a>
+</div>
+{% endblock %}
